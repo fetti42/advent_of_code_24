@@ -55,8 +55,20 @@ fn main () {
 
         for report in reports {
             
-            if safe(report) {
+            if safe(report.clone()) {
                 safe_count += 1;    
+            }
+
+            else { // this is so inefficient
+                let length = report.len();
+                for i in 0..length {
+                    let mut foo = report.clone();
+                    foo.remove(i);
+                    if safe(foo) {
+                        safe_count += 1;
+                        break;
+                    }
+                }
             }
         }
     }
