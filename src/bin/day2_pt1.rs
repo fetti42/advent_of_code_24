@@ -11,14 +11,13 @@ where P: AsRef<Path>, {
 }
 
 
+
 fn main () {
 
-    // read input
-
+    // read in numbers
     if let Ok(lines) = read_lines("../inputs/day1_input.txt") {
         println!("reading file");
         for line in lines.flatten() {
         }
     }
-
 }
