@@ -11,11 +11,33 @@ where P: AsRef<Path>, {
 }
 
 
-fn safe (report: &Vec<i32>) -> bool {
-    //check the order
+fn safe (report: Vec<i32>) -> bool {
 
+    let mut foo = report.clone();
+    //check the order
+    foo.sort();
+    if foo != report {
+        foo.reverse();
+        if foo != report {
+            return false;   
+        }
+    }
 
     //check the intervals
+    let mut curr_val = &foo[0];
+
+    for val in &foo[1..] {
+        if (curr_val - val).abs() < 1 {
+            return false;
+        }
+        
+        if (curr_val - val).abs() > 3 {
+            return false;
+        }
+        curr_val = val;
+    }
+
+    return true;
 }
 
 fn main () {
@@ -32,34 +54,10 @@ fn main () {
         }
 
         for report in reports {
-            let mut foo = report.clone();
-            foo.sort();
-            if foo != report {
-                foo.reverse();
-                if foo != report {
-                    //println!{"{:?}", report};
-                    continue;
-                }
+            
+            if safe(report) {
+                safe_count += 1;    
             }
-
-            let mut curr_val = &foo[0];
-            let mut bad = false;
-
-            for val in &foo[1..] {
-                if (curr_val - val).abs() < 1 {
-                    bad = true;
-                    break;
-                }
-                if (curr_val - val).abs() > 3 {
-                    bad = true;
-                    break;
-                }
-                curr_val = val;
-            }
-            if bad {
-                continue;
-            }
-            safe_count += 1;
         }
     }
 
