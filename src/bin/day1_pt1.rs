@@ -1,7 +1,6 @@
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
-use std::cmp::min;
 
 // file I/O - read in file
 
@@ -10,9 +9,6 @@ where P: AsRef<Path>, {
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }
-
-
-
 
 fn main () {
 
@@ -24,7 +20,7 @@ fn main () {
         println!("reading file");
         for line in lines.flatten() {
             let temp: Vec<&str> = line.split(' ').collect();
-            first_list.push(temp.first().unwrap().parse::<i32>().unwrap());
+            first_list.push(temp[0].parse::<i32>().unwrap());
             sec_list.push(temp.last().unwrap().parse::<i32>().unwrap());
         }
     }
