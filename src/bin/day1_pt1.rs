@@ -1,6 +1,7 @@
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
+use std::cmp::min;
 
 // file I/O - read in file
 
@@ -26,6 +27,10 @@ fn main () {
             sec_list.push(temp.last().unwrap().parse::<u32>().unwrap());
         }
     }
-    println!("List len: {}",first_list.len());
+    first_list.sort();
+    sec_list.sort();
+
+    let foo = min(sec_list.len(), 5);
+    println!("{:?}",&sec_list[..foo]);
 
 }
