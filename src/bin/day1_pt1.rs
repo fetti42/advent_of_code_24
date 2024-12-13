@@ -18,7 +18,7 @@ fn main () {
     let mut first_list = Vec::new();
     let mut sec_list = Vec::new();
 
-    if let Ok(lines) = read_lines("./day1_input.txt") {
+    if let Ok(lines) = read_lines("../inputs/day1_input.txt") {
         println!("reading file");
         for line in lines.flatten() {
             let temp: Vec<&str> = line.split(' ').collect();
