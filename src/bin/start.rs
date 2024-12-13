@@ -18,6 +18,7 @@ fn main () {
     if let Ok(lines) = read_lines("/rust_practice/advent_of_code_24/inputs/day1_input.txt") {
         println!("reading file");
         for line in lines.flatten() {
+            println!("{}",line);
         }
     }
 
