@@ -18,30 +18,6 @@ fn times_in_string(word: &str, text: &str) -> usize {
     return matches.len();
 }
 
-// fn make_square(mut matrix: Vec<String>) -> Vec<String> {
-//     let length = matrix[0].len();
-//     let height = matrix.len();
-
-//     let mut padded_matrix = matrix;
-
-//     if length > height {
-//         let diff = length - height;
-//         let padding = ".".repeat(length);
-//         for i in 0..diff {
-//             padded_matrix.push(padding.clone());
-//         }
-//     }
-//     if height > length {
-//         let diff = height - length;
-//         let padding = ".".repeat(diff);
-//         for mut row in padded_matrix {
-//             row.push_str(&padding);
-//         }
-//     }
-//     return padded_matrix;
-
-// }
-
 fn main () {
 
     // read input
@@ -51,7 +27,7 @@ fn main () {
     let word = &"XMAS".to_string();
     //let mut temp: String;
 
-    if let Ok(lines) = read_lines("../inputs/day4_easier.txt") {
+    if let Ok(lines) = read_lines("../inputs/day4_input.txt") {
         println!("reading file");
 
         for line in lines.flatten() {
@@ -98,6 +74,7 @@ fn main () {
 
         // make diagonals
         let mut r_diagonals: Vec<String> = Vec::new();
+        let mut l_diagonals: Vec<String> = Vec::new();
 
         println!("{}", running_sum);
 
@@ -106,29 +83,38 @@ fn main () {
         let height = rows.len();
 
         for i in 0..length {
-            let mut row_diagonal = String::new();
+            let mut r_row_diagonal = String::new();
+            let mut l_row_diagonal = String::new();
             for j in 0..length-i {
                 if i+j == height + 1 {
                     break;
                 }
-                row_diagonal.push(rows[j].chars().nth(i+j).unwrap());
+                r_row_diagonal.push(rows[j].chars().nth(i+j).unwrap());
+                let rev: String = rows[j].chars().rev().collect();
+                l_row_diagonal.push(rev.chars().nth(i+j).unwrap());
 
             }
-            println!("{}", row_diagonal);
-            r_diagonals.push(row_diagonal);
+            println!("{}", r_row_diagonal);
+            r_diagonals.push(r_row_diagonal);
+            l_diagonals.push(l_row_diagonal);
 
         }
 
         for i in 1..height { 
-            let mut col_diagonal = String::new();
+            let mut r_col_diagonal = String::new();
+            let mut l_col_diagonal = String::new();
             for j in 0..height-i {
                 if i+j == length+1 {
                     break;
                 }
-                col_diagonal.push(rows[i+j].chars().nth(j).unwrap());
+                r_col_diagonal.push(rows[i+j].chars().nth(j).unwrap());
+                let rev: String = rows[i+j].chars().rev().collect();
+                l_col_diagonal.push(rev.chars().nth(j).unwrap());
             }
-            println!("{}", col_diagonal);
-            r_diagonals.push(col_diagonal);
+            println!("{}", r_col_diagonal);
+            r_diagonals.push(r_col_diagonal);
+            l_diagonals.push(l_col_diagonal);
+            
         }
 
         for each in &r_diagonals {
@@ -143,8 +129,17 @@ fn main () {
             running_sum += bar;
         }
 
+        for each in &l_diagonals {
+            let bar = times_in_string(&word, &each);
+            running_sum += bar;
+        }
 
-        let mut l_diagonals: Vec<String>;
+        // backwards
+        for each in &l_diagonals {
+            let foo: String = each.chars().rev().collect();
+            let bar = times_in_string(&word, &foo);
+            running_sum += bar;
+        }
 
 
     }
