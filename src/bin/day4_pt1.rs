@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
 use regex::Regex;
+use std::iter;
 
 // file I/O - read in file
 
@@ -16,6 +17,30 @@ fn times_in_string(word: &str, text: &str) -> usize {
     let matches: Vec<String> = re.find_iter(&text).map(|m| m.as_str().to_string()).collect();
     return matches.len();
 }
+
+// fn make_square(mut matrix: Vec<String>) -> Vec<String> {
+//     let length = matrix[0].len();
+//     let height = matrix.len();
+
+//     let mut padded_matrix = matrix;
+
+//     if length > height {
+//         let diff = length - height;
+//         let padding = ".".repeat(length);
+//         for i in 0..diff {
+//             padded_matrix.push(padding.clone());
+//         }
+//     }
+//     if height > length {
+//         let diff = height - length;
+//         let padding = ".".repeat(diff);
+//         for mut row in padded_matrix {
+//             row.push_str(&padding);
+//         }
+//     }
+//     return padded_matrix;
+
+// }
 
 fn main () {
 
@@ -32,6 +57,8 @@ fn main () {
         for line in lines.flatten() {
             rows.push(line);
         }
+
+        //make_square(rows);
 
         // search the rows forward
         for each in &rows {
@@ -75,19 +102,30 @@ fn main () {
         println!("{}", running_sum);
 
         // find row diagonals
-        for i in 0..rows[0].len() {
+        let length = rows[0].len();
+        let height = rows.len();
+
+        for i in 0..length {
             let mut row_diagonal = String::new();
-            for j in 0..rows[0].len()-i {
+            for j in 0..length-i {
+                if i+j == height + 1 {
+                    break;
+                }
                 row_diagonal.push(rows[j].chars().nth(i+j).unwrap());
+
             }
+            println!("{}", row_diagonal);
             r_diagonals.push(row_diagonal);
 
         }
 
-        for i in 0..columns[0].len() { // needs to account for it not being square
+        for i in 1..height { 
             let mut col_diagonal = String::new();
-            for j in 0..columns[0].len()-i {
-                col_diagonal.push(rows[j].chars().nth(i+j).unwrap());
+            for j in 0..height-i {
+                if i+j == length+1 {
+                    break;
+                }
+                col_diagonal.push(rows[i+j].chars().nth(j).unwrap());
             }
             println!("{}", col_diagonal);
             r_diagonals.push(col_diagonal);
