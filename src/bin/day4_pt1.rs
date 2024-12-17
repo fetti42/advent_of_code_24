@@ -19,9 +19,9 @@ fn times_in_string(word: &str, text: &str) -> usize {
 
 fn search_forward_backward(word: &str, text: &str) -> usize {
     let mut running_sum = 0;
-    let foo: String = text.chars().rev().collect();
+    let rev_word: String = word.chars().rev().collect();
     let bar = times_in_string(&word, &text);
-    let baz = times_in_string(&word, &foo);
+    let baz = times_in_string(&rev_word, &text);
     running_sum += bar;
     running_sum += baz;
     return running_sum;
