@@ -2,7 +2,6 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
 use regex::Regex;
-use std::iter;
 
 // file I/O - read in file
 
@@ -18,6 +17,16 @@ fn times_in_string(word: &str, text: &str) -> usize {
     return matches.len();
 }
 
+fn search_forward_backward(word: &str, text: &str) -> usize {
+    let mut running_sum = 0;
+    let foo: String = text.chars().rev().collect();
+    let bar = times_in_string(&word, &text);
+    let baz = times_in_string(&word, &foo);
+    running_sum += bar;
+    running_sum += baz;
+    return running_sum;
+}
+
 fn main () {
 
     // read input
@@ -25,7 +34,6 @@ fn main () {
     let mut running_sum = 0;
     let mut rows: Vec<String> = Vec::new();
     let word = &"XMAS".to_string();
-    //let mut temp: String;
 
     if let Ok(lines) = read_lines("../inputs/day4_input.txt") {
         println!("reading file");
@@ -34,18 +42,9 @@ fn main () {
             rows.push(line);
         }
 
-        //make_square(rows);
-
-        // search the rows forward
+        // search the rows
         for each in &rows {
-            let bar = times_in_string(&word, &each);
-            running_sum += bar;
-        }
-
-        // search the rows backwards
-        for each in &rows {
-            let foo: String = each.chars().rev().collect();
-            let bar = times_in_string(&word, &foo);
+            let bar = search_forward_backward(&word, &each);
             running_sum += bar;
         }
 
@@ -56,27 +55,16 @@ fn main () {
                 columns[i] += &row.chars().nth(i).unwrap().to_string();
             }
         }
-        println!("{}", columns[0]);
 
         // search columns
-        // forward
         for each in &columns {
-            let bar = times_in_string(&word, &each);
-            running_sum += bar;
-        }
-
-        // backwards
-        for each in &columns {
-            let foo: String = each.chars().rev().collect();
-            let bar = times_in_string(&word, &foo);
+            let bar = search_forward_backward(&word, &each);
             running_sum += bar;
         }
 
         // make diagonals
         let mut r_diagonals: Vec<String> = Vec::new();
         let mut l_diagonals: Vec<String> = Vec::new();
-
-        println!("{}", running_sum);
 
         // find row diagonals
         let length = rows[0].len();
@@ -94,10 +82,8 @@ fn main () {
                 l_row_diagonal.push(rev.chars().nth(i+j).unwrap());
 
             }
-            println!("{}", r_row_diagonal);
             r_diagonals.push(r_row_diagonal);
             l_diagonals.push(l_row_diagonal);
-
         }
 
         for i in 1..height { 
@@ -111,37 +97,22 @@ fn main () {
                 let rev: String = rows[i+j].chars().rev().collect();
                 l_col_diagonal.push(rev.chars().nth(j).unwrap());
             }
-            println!("{}", r_col_diagonal);
             r_diagonals.push(r_col_diagonal);
             l_diagonals.push(l_col_diagonal);
             
         }
 
+        // count r_diagonals
         for each in &r_diagonals {
-            let bar = times_in_string(&word, &each);
+            let bar = search_forward_backward(&word, &each);
             running_sum += bar;
         }
 
-        // backwards
-        for each in &r_diagonals {
-            let foo: String = each.chars().rev().collect();
-            let bar = times_in_string(&word, &foo);
-            running_sum += bar;
-        }
-
+        // count l_diagonals
         for each in &l_diagonals {
-            let bar = times_in_string(&word, &each);
+            let bar = search_forward_backward(&word, &each);
             running_sum += bar;
         }
-
-        // backwards
-        for each in &l_diagonals {
-            let foo: String = each.chars().rev().collect();
-            let bar = times_in_string(&word, &foo);
-            running_sum += bar;
-        }
-
-
     }
 
     println!("{} appears {} times", word, running_sum);
