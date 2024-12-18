@@ -29,15 +29,15 @@ fn search_forward_backward(word: &str, text: &str) -> usize {
     return running_sum;
 }
 
-fn replace_regex(word: &str, replacement: &str, text: &str) -> String {
-    let rev_word: String = word.chars().rev().collect();
-    let rev_replacement: String = replacement.chars().rev().collect();
-    let re = Regex::new(&word).unwrap();
-    let rev_re = Regex::new(&rev_word).unwrap();
-    let temp = re.replace_all(text, replacement);
-    let after = rev_re.replace_all(&temp, rev_replacement).to_string();
-    return after;
-}
+// fn replace_regex(word: &str, replacement: &str, text: &str) -> String {
+//     let rev_word: String = word.chars().rev().collect();
+//     let rev_replacement: String = replacement.chars().rev().collect();
+//     let re = Regex::new(&word).unwrap();
+//     let rev_re = Regex::new(&rev_word).unwrap();
+//     let temp = re.replace_all(text, replacement);
+//     let after = rev_re.replace_all(&temp, rev_replacement).to_string();
+//     return after;
+// }
 
 fn main () {
 
