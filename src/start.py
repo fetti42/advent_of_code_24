@@ -2,7 +2,7 @@ import argparse
 
 
 def import_data(filename):
-    data = [i.strip('\n') for i in open(filename.readlines())]
+    data = [i.strip('\n') for i in open(filename).readlines()]
     return(data)
 
 def run_test(data):
